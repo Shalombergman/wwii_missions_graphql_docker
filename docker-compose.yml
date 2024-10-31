@@ -1,0 +1,21 @@
+# docker-compose.yml
+
+version: "3.8"
+services:
+  psql-wwii:
+    image: tomer79sagi/wwii_missions
+    ports:
+      - "5440:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: missions_db
+
+  flask-app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - psql-wwii
+    environment:
+      DATABASE_URL: "postgresql://admin:admin@psql-wwii:5432/missions_db"
