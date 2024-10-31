@@ -10,5 +10,4 @@ class CountryModel(Base):
     __tablename__ = 'countries'
     country_id = Column(Integer, primary_key=True)
     name = Column(String)
-
     cities = relationship('CityModel', back_populates='country')

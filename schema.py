@@ -41,12 +41,17 @@ class Query(graphene.ObjectType):
                                            start_date=graphene.Date(required=True),
                                            end_date=graphene.Date( required=True))
 
+    mission_by_country = graphene.List(Mission,country_id=graphene.Int(required=True))
+
 
     def resolve_mission_by_id(self, info, mission_id):
         return db_session.query(MissionModel).get(mission_id)
 
     def resolve_missions_by_range_date(self, info, start_date, end_date):
         return db_session.query(MissionModel).filter(MissionModel.mission_date.between(start_date,end_date)).all()
+
+    def resolve_mission_by_country(self, info, country_id):
+        return db_session.query(MissionModel).filter(MissionModel.country_id == country_id).all()
 
 
 schema = graphene.Schema(query=Query)
